@@ -5,8 +5,11 @@
  */
 package ttt.gui;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.geometry.Insets;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -63,8 +66,8 @@ public class GameBoard {
         makeThirdRow();
 
         for (HBox row : rows) {
-            row.setMinSize(630, 210);
-            row.setMaxSize(630, 210);
+            row.setMinSize(450, 150);
+            row.setMaxSize(450, 150);
         }
 
         attachEventHandlers();
@@ -74,14 +77,18 @@ public class GameBoard {
         boxOne = new AnchorPane();
         boxTwo = new AnchorPane();
         boxThree = new AnchorPane();
+        //set IDs for the boxes corresponding to their 2D array index
+        boxOne.setId("00");
+        boxTwo.setId("01");
+        boxThree.setId("02");
 
         ArrayList<Pane> firstRowBoxes = new ArrayList<>(Arrays.asList(boxOne, boxTwo, boxThree));
 
         for (Pane rowBox : firstRowBoxes) {
             firstRow.getChildren().add(rowBox);
             boxes.add(rowBox); //add the boxes of the first row to the list of boxes
-            rowBox.setMinSize(210, 210);
-            rowBox.setMaxSize(210, 210);
+            rowBox.setMinSize(150, 150);
+            rowBox.setMaxSize(150, 150);
             rowBox.setStyle("-fx-background-color: white");
         }
         String cssString = "-fx-border-color: black;\n"
@@ -102,14 +109,18 @@ public class GameBoard {
         boxFour = new AnchorPane();
         boxFive = new AnchorPane();
         boxSix = new AnchorPane();
+        //set IDs for the boxes corresponding to their 2D array index
+        boxFour.setId("10");
+        boxFive.setId("11");
+        boxSix.setId("12");
 
         ArrayList<Pane> secondRowBoxes = new ArrayList<>(Arrays.asList(boxFour, boxFive, boxSix));
 
         for (Pane rowBox : secondRowBoxes) {
             secondRow.getChildren().add(rowBox);
             boxes.add(rowBox);
-            rowBox.setMinSize(210, 210);
-            rowBox.setMaxSize(210, 210);
+            rowBox.setMinSize(150, 150);
+            rowBox.setMaxSize(150, 150);
             rowBox.setStyle("-fx-background-color: white");
 
             String cssString = "-fx-border-color: black;\n"
@@ -130,14 +141,18 @@ public class GameBoard {
         boxSeven = new AnchorPane();
         boxEight = new AnchorPane();
         boxNine = new AnchorPane();
+        //set IDs for the boxes corresponding to their 2D array index
+        boxSeven.setId("20");
+        boxEight.setId("21");
+        boxNine.setId("22");
 
         ArrayList<Pane> thirdRowBoxes = new ArrayList<>(Arrays.asList(boxSeven, boxEight, boxNine));
 
         for (Pane rowBox : thirdRowBoxes) {
             thirdRow.getChildren().add(rowBox);
             boxes.add(rowBox);
-            rowBox.setMinSize(210, 210);
-            rowBox.setMaxSize(210, 210);
+            rowBox.setMinSize(150, 150);
+            rowBox.setMaxSize(150, 150);
 
             String cssString = "-fx-border-color: black;\n"
                     + "-fx-border-width: 0 3 3 0;\n"
@@ -156,13 +171,24 @@ public class GameBoard {
     public void attachEventHandlers() {
         for (Pane rowBox : boxes) {
             String cssString = rowBox.getStyle();
+            //mouse enter event
             rowBox.setOnMouseEntered(e -> {
                 if (rowBox.getChildren().isEmpty()) {
                     rowBox.setStyle(cssString + "-fx-background-color: azure;");
                 }
             });
+            //mouse exit event
             rowBox.setOnMouseExited(e -> {
                 rowBox.setStyle(cssString);
+            });
+            //here the call to minimax will take place
+            rowBox.setOnMouseClicked(e -> {
+                if (rowBox.getChildren().isEmpty()) {
+                    System.out.println(rowBox.getId());
+                    ImageView imageView = new ImageView("X.png");
+                    rowBox.getChildren().add(imageView);
+                    rowBox.setStyle(cssString);
+                }
             });
         }
     }
