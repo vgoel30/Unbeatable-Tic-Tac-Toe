@@ -7,6 +7,7 @@ package ttt.gui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -47,22 +48,51 @@ public class GameBoard {
 
         //all the rows in the tic tac toe grid
         rows = new ArrayList<>(Arrays.asList(firstRow, secondRow, thirdRow));
-
+        //add all the rows into the board
         for (HBox row : rows) {
             boardContainer.getChildren().add(row);
         }
-
+        //for the purpose of visual differentation
         firstRow.setStyle("-fx-background-color: orange");
         secondRow.setStyle("-fx-background-color: white");
         thirdRow.setStyle("-fx-background-color: green");
 
+        makeFirstRow();
+
         initStyle();
+    }
+
+    public void makeFirstRow() {
+        boxOne = new AnchorPane();
+        boxTwo = new AnchorPane();
+        boxThree = new AnchorPane();
+
+        ArrayList<Pane> firstRowBoxes = new ArrayList<>(Arrays.asList(boxOne, boxTwo, boxThree));
+
+        for (Pane firstRowBox : firstRowBoxes) {
+            firstRow.getChildren().add(firstRowBox);
+            firstRowBox.setMinSize(210, 210);
+            firstRowBox.setMaxSize(210, 210);
+            firstRowBox.setStyle("-fx-background-color: white");
+        }
+        String cssString = "-fx-border-color: black;\n"
+                + "-fx-border-width: 0 3 3 0;\n"
+                + "-fx-border-style: solid;\n";
+
+        boxOne.setStyle(cssString);
+        boxTwo.setStyle(cssString);
+
+        cssString = "-fx-border-color: black;\n"
+                + "-fx-border-width: 0 0 3 0;\n"
+                + "-fx-border-style: solid;\n";
+        boxThree.setStyle(cssString);
+
     }
 
     public void initStyle() {
         for (HBox row : rows) {
-            row.setMinSize(600, 200);
-            row.setMaxSize(600, 200);
+            row.setMinSize(630, 210);
+            row.setMaxSize(630, 210);
         }
     }
 

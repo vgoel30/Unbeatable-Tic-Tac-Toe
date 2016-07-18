@@ -28,12 +28,12 @@ public class GameController extends Application{
 
         getBoardReady();
 
-        Scene scene = new Scene(gameBoard.getBoard(), 600, 600);
+        Scene scene = new Scene(gameBoard.getBoard(), 630, 630);
         primaryStage.setScene(scene);
-        primaryStage.setMaxHeight(600);
-        primaryStage.setMaxWidth(600);
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(600);
+        primaryStage.setMaxHeight(630);
+        primaryStage.setMaxWidth(630);
+        primaryStage.setMinHeight(630);
+        primaryStage.setMinWidth(630);
 
         primaryStage.show();
 
