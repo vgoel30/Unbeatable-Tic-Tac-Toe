@@ -53,10 +53,10 @@ public class GameBoard {
         for (HBox row : rows) {
             boardContainer.getChildren().add(row);
         }
-        
+
         //all the boxes (9) on the grid
         boxes = new ArrayList<>();
-        
+
         //set up all the rows
         makeFirstRow();
         makeSecondRow();
@@ -66,7 +66,7 @@ public class GameBoard {
             row.setMinSize(630, 210);
             row.setMaxSize(630, 210);
         }
-        
+
         attachEventHandlers();
     }
 
@@ -138,7 +138,6 @@ public class GameBoard {
             boxes.add(rowBox);
             rowBox.setMinSize(210, 210);
             rowBox.setMaxSize(210, 210);
-            rowBox.setStyle("-fx-background-color: white");
 
             String cssString = "-fx-border-color: black;\n"
                     + "-fx-border-width: 0 3 3 0;\n"
@@ -153,11 +152,17 @@ public class GameBoard {
             boxNine.setStyle(cssString);
         }
     }
-    
-    public void attachEventHandlers(){
-        for(Pane rowBox: boxes){
+
+    public void attachEventHandlers() {
+        for (Pane rowBox : boxes) {
+            String cssString = rowBox.getStyle();
             rowBox.setOnMouseEntered(e -> {
-                System.out.println("Mosue eneterefd");
+                if (rowBox.getChildren().isEmpty()) {
+                    rowBox.setStyle(cssString + "-fx-background-color: azure;");
+                }
+            });
+            rowBox.setOnMouseExited(e -> {
+                rowBox.setStyle(cssString);
             });
         }
     }
