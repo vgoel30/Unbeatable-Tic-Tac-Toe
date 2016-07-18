@@ -22,6 +22,7 @@ public class GameBoard {
     VBox boardContainer;
 
     ArrayList<HBox> rows;
+    ArrayList<Pane> boxes;
 
     HBox firstRow;
     HBox secondRow;
@@ -52,14 +53,21 @@ public class GameBoard {
         for (HBox row : rows) {
             boardContainer.getChildren().add(row);
         }
-        //for the purpose of visual differentation
-        firstRow.setStyle("-fx-background-color: orange");
-        secondRow.setStyle("-fx-background-color: white");
-        thirdRow.setStyle("-fx-background-color: green");
-
+        
+        //all the boxes (9) on the grid
+        boxes = new ArrayList<>();
+        
+        //set up all the rows
         makeFirstRow();
+        makeSecondRow();
+        makeThirdRow();
 
-        initStyle();
+        for (HBox row : rows) {
+            row.setMinSize(630, 210);
+            row.setMaxSize(630, 210);
+        }
+        
+        attachEventHandlers();
     }
 
     public void makeFirstRow() {
@@ -69,11 +77,12 @@ public class GameBoard {
 
         ArrayList<Pane> firstRowBoxes = new ArrayList<>(Arrays.asList(boxOne, boxTwo, boxThree));
 
-        for (Pane firstRowBox : firstRowBoxes) {
-            firstRow.getChildren().add(firstRowBox);
-            firstRowBox.setMinSize(210, 210);
-            firstRowBox.setMaxSize(210, 210);
-            firstRowBox.setStyle("-fx-background-color: white");
+        for (Pane rowBox : firstRowBoxes) {
+            firstRow.getChildren().add(rowBox);
+            boxes.add(rowBox); //add the boxes of the first row to the list of boxes
+            rowBox.setMinSize(210, 210);
+            rowBox.setMaxSize(210, 210);
+            rowBox.setStyle("-fx-background-color: white");
         }
         String cssString = "-fx-border-color: black;\n"
                 + "-fx-border-width: 0 3 3 0;\n"
@@ -89,10 +98,67 @@ public class GameBoard {
 
     }
 
-    public void initStyle() {
-        for (HBox row : rows) {
-            row.setMinSize(630, 210);
-            row.setMaxSize(630, 210);
+    public void makeSecondRow() {
+        boxFour = new AnchorPane();
+        boxFive = new AnchorPane();
+        boxSix = new AnchorPane();
+
+        ArrayList<Pane> secondRowBoxes = new ArrayList<>(Arrays.asList(boxFour, boxFive, boxSix));
+
+        for (Pane rowBox : secondRowBoxes) {
+            secondRow.getChildren().add(rowBox);
+            boxes.add(rowBox);
+            rowBox.setMinSize(210, 210);
+            rowBox.setMaxSize(210, 210);
+            rowBox.setStyle("-fx-background-color: white");
+
+            String cssString = "-fx-border-color: black;\n"
+                    + "-fx-border-width: 0 3 3 0;\n"
+                    + "-fx-border-style: solid;\n";
+
+            boxFour.setStyle(cssString);
+            boxFive.setStyle(cssString);
+
+            cssString = "-fx-border-color: black;\n"
+                    + "-fx-border-width: 0 0 3 0;\n"
+                    + "-fx-border-style: solid;\n";
+            boxSix.setStyle(cssString);
+        }
+    }
+
+    public void makeThirdRow() {
+        boxSeven = new AnchorPane();
+        boxEight = new AnchorPane();
+        boxNine = new AnchorPane();
+
+        ArrayList<Pane> thirdRowBoxes = new ArrayList<>(Arrays.asList(boxSeven, boxEight, boxNine));
+
+        for (Pane rowBox : thirdRowBoxes) {
+            thirdRow.getChildren().add(rowBox);
+            boxes.add(rowBox);
+            rowBox.setMinSize(210, 210);
+            rowBox.setMaxSize(210, 210);
+            rowBox.setStyle("-fx-background-color: white");
+
+            String cssString = "-fx-border-color: black;\n"
+                    + "-fx-border-width: 0 3 3 0;\n"
+                    + "-fx-border-style: solid;\n";
+
+            boxSeven.setStyle(cssString);
+            boxEight.setStyle(cssString);
+
+            cssString = "-fx-border-color: black;\n"
+                    + "-fx-border-width: 0 0 3 0;\n"
+                    + "-fx-border-style: solid;\n";
+            boxNine.setStyle(cssString);
+        }
+    }
+    
+    public void attachEventHandlers(){
+        for(Pane rowBox: boxes){
+            rowBox.setOnMouseEntered(e -> {
+                System.out.println("Mosue eneterefd");
+            });
         }
     }
 

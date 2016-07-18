@@ -34,7 +34,6 @@ public class GameController extends Application{
         primaryStage.setMaxWidth(630);
         primaryStage.setMinHeight(630);
         primaryStage.setMinWidth(630);
-
         primaryStage.show();
 
     }
