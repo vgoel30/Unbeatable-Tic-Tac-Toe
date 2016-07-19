@@ -75,7 +75,7 @@ public class GameBoard {
             row.setMaxSize(450, 150);
         }
 
-        attachEventHandlers();
+        viewController.attachEventHandlers(boxes);
     }
 
     public void makeFirstRow() {
@@ -179,7 +179,8 @@ public class GameBoard {
             //mouse enter event
             rowBox.setOnMouseEntered(e -> {
                 if (rowBox.getChildren().isEmpty()) {
-                    rowBox.setStyle(cssString + "-fx-background-color: skyblue;");
+                    rowBox.setStyle(cssString + "-fx-background-color: #19B5FE;");
+                    //Color.
                 }
             });
             //mouse exit event

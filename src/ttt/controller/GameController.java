@@ -5,10 +5,12 @@
  */
 package ttt.controller;
 
+import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ttt.data.Point;
 import ttt.gui.GameBoard;
 
 /**
@@ -18,6 +20,11 @@ import ttt.gui.GameBoard;
 public class GameController extends Application{
     
     static GameBoard gameBoard;
+    
+    static char currentTurn;
+    
+    static ArrayList<Point> availablePoints;
+    
     
     public static void main(String[] args) {
         launch(args);

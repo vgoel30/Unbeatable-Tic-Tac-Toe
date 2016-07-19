@@ -5,6 +5,7 @@
  */
 package ttt.controller;
 
+import java.util.ArrayList;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
@@ -13,6 +14,31 @@ import javafx.scene.layout.Pane;
  * @author varungoel
  */
 public class ViewController {
+    
+    public void attachEventHandlers(ArrayList<Pane> boxes) {
+        for (Pane rowBox : boxes) {
+            String cssString = rowBox.getStyle();
+            //mouse enter event
+            rowBox.setOnMouseEntered(e -> {
+                if (rowBox.getChildren().isEmpty()) {
+                    rowBox.setStyle(cssString + "-fx-background-color: #19B5FE;");
+                    //Color.
+                }
+            });
+            //mouse exit event
+            rowBox.setOnMouseExited(e -> {
+                rowBox.setStyle(cssString);
+            });
+            //here the call to minimax will take place
+            rowBox.setOnMouseClicked(e -> {
+                //the box must be empty
+                if (rowBox.getChildren().isEmpty()) {
+                    System.out.println(rowBox.getId());
+                    placeX(rowBox, cssString);
+                }
+            });
+        }
+    }
 
     /**
      * Places the 'X' in the box clicked by the user
