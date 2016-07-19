@@ -30,10 +30,12 @@ public class GameController extends Application{
 
         Scene scene = new Scene(gameBoard.getBoard(), 450, 450);
         primaryStage.setScene(scene);
+        //fixed dimensions for the board (450 * 450)
         primaryStage.setMaxHeight(450);
         primaryStage.setMaxWidth(450);
         primaryStage.setMinHeight(450);
         primaryStage.setMinWidth(450);
+        
         primaryStage.show();
 
     }

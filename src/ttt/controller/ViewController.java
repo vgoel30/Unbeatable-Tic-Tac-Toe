@@ -17,7 +17,7 @@ public class ViewController {
     /**
      * Places the 'X' in the box clicked by the user
      * @param rowBox is the box clicked by the user
-     * @param cssString is the default css string being used for the boxes of the grid
+     * @param cssString is the default CSS string being used for the boxes of the grid
      */
     public void placeX(Pane rowBox, String cssString) {
         ImageView imageView = new ImageView("X.png");
