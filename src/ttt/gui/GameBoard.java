@@ -20,8 +20,6 @@ import ttt.controller.ViewController;
  * @author varungoel
  */
 public class GameBoard {
-
-    GameController gameController;
     ViewController viewController;
 
     VBox boardContainer;
@@ -46,7 +44,6 @@ public class GameBoard {
     Pane boxNine;
 
     public void layoutGUI() {
-        gameController = new GameController();
         viewController = new ViewController();
         
         boardContainer = new VBox();
@@ -170,31 +167,6 @@ public class GameBoard {
                     + "-fx-border-width: 0 0 3 0;\n"
                     + "-fx-border-style: solid;\n";
             boxNine.setStyle(cssString);
-        }
-    }
-
-    public void attachEventHandlers() {
-        for (Pane rowBox : boxes) {
-            String cssString = rowBox.getStyle();
-            //mouse enter event
-            rowBox.setOnMouseEntered(e -> {
-                if (rowBox.getChildren().isEmpty()) {
-                    rowBox.setStyle(cssString + "-fx-background-color: #19B5FE;");
-                    //Color.
-                }
-            });
-            //mouse exit event
-            rowBox.setOnMouseExited(e -> {
-                rowBox.setStyle(cssString);
-            });
-            //here the call to minimax will take place
-            rowBox.setOnMouseClicked(e -> {
-                //the box must be empty
-                if (rowBox.getChildren().isEmpty()) {
-                    System.out.println(rowBox.getId());
-                    viewController.placeX(rowBox, cssString);
-                }
-            });
         }
     }
 
