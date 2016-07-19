@@ -5,22 +5,24 @@
  */
 package ttt.gui;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import ttt.controller.GameController;
+import ttt.controller.ViewController;
 
 /**
  *
  * @author varungoel
  */
 public class GameBoard {
+
+    GameController gameController;
+    ViewController viewController;
 
     VBox boardContainer;
 
@@ -44,6 +46,9 @@ public class GameBoard {
     Pane boxNine;
 
     public void layoutGUI() {
+        gameController = new GameController();
+        viewController = new ViewController();
+        
         boardContainer = new VBox();
 
         firstRow = new HBox();
@@ -174,7 +179,7 @@ public class GameBoard {
             //mouse enter event
             rowBox.setOnMouseEntered(e -> {
                 if (rowBox.getChildren().isEmpty()) {
-                    rowBox.setStyle(cssString + "-fx-background-color: azure;");
+                    rowBox.setStyle(cssString + "-fx-background-color: skyblue;");
                 }
             });
             //mouse exit event
@@ -183,11 +188,10 @@ public class GameBoard {
             });
             //here the call to minimax will take place
             rowBox.setOnMouseClicked(e -> {
+                //the box must be empty
                 if (rowBox.getChildren().isEmpty()) {
                     System.out.println(rowBox.getId());
-                    ImageView imageView = new ImageView("X.png");
-                    rowBox.getChildren().add(imageView);
-                    rowBox.setStyle(cssString);
+                    viewController.placeX(rowBox, cssString);
                 }
             });
         }
