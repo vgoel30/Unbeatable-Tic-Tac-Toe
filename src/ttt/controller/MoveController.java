@@ -16,7 +16,58 @@ public class MoveController {
 
     // 'X' will be considered as 1 -> the player
     // 'O' will be considered as 2 -> the AI
-    
+    int[] minimax(char[][] board, char currentTurn, int depth) {
+        //get all the points that are empty
+        ArrayList<Point> availablePoints = getAvailablePoints(board);
+        //we want to get the maximum value score for ('O'): the AI
+        int bestScore = (currentTurn == 'O') ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        int currentScore;
+        //the row and column that will lead to the best outcome
+        int bestRow = -1;
+        int bestColumn = -1;
+        //if no more moves are possible, check for a draw or the winner
+        if (availablePoints.isEmpty() || depth == 0) {
+            if (playerHasWon(board, 'X')) {
+                bestScore = -1;
+            } else if (playerHasWon(board, 'O')) {
+                bestScore = 1;
+            } else {
+                bestScore = 0;
+            }
+        } else {
+            //iterate over all the avaiable points for the next move
+            for (Point point : availablePoints) {
+               // System.out.println("POINT : " + point);
+                int pointRow = point.getRow();
+                int pointColumn = point.getColumn();
+                //try this move for the person who is to go next
+                board[pointRow][pointColumn] = currentTurn;
+                //if it is the AI's turn, we want to maximize the score
+                if (currentTurn == 'O') {
+                    //now the opponent plays the next move
+                    currentScore = minimax(board, 'X', depth - 1)[0];
+                    if (currentScore > bestScore) {
+                        bestScore = currentScore;
+                        bestRow = pointRow;
+                        bestColumn = pointColumn;
+                    }
+                } //if it is the player's turn, we want to get the minimum value (best outcome for player)
+                else {
+                    //now we play the next move
+                    currentScore = minimax(board, 'O', depth - 1)[0];
+                    if (currentScore < bestScore) {
+                        bestScore = currentScore;
+                        bestRow = pointRow;
+                        bestColumn = pointColumn;
+                    }
+                }
+                //undo the move and empty the box
+                board[pointRow][pointColumn] = '\0';
+            }
+        }
+        //System.out.println("RESULT: " + bestRow + bestColumn);
+        return new int[]{bestScore, bestRow, bestColumn};
+    }
 
     void simulateMove(char[][] board, Point point, char player) {
         board[point.getRow()][point.getColumn()] = player;
