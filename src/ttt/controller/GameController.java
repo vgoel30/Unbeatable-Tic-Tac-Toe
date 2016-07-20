@@ -64,11 +64,12 @@ public class GameController extends Application {
         int column = boxID.charAt(1) - 48;
         //set the clicked box to 'X
         board[row][column] = 'X';
-        printBoard(board);
+        
         //now it is the computer's turn
         currentTurn = 'O';
         //call the minimax algorithm in move controller
         moveController.minimax(board,0,currentTurn);
+        printBoard(board);
     }
 
     static void printBoard(char[][] board) {

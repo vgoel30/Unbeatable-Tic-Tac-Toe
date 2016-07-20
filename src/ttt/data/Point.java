@@ -13,6 +13,10 @@ public class Point {
     
     int row;
     int column;
+    
+    public Point(){
+        
+    }
 
     public Point(int row, int column) {
         this.row = row;
