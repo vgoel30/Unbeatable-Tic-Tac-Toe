@@ -18,6 +18,7 @@ import ttt.gui.GameBoard;
  * @author varungoel
  */
 public class GameController extends Application {
+
     static GameBoard gameBoard;
 
     static char currentTurn;
@@ -25,6 +26,8 @@ public class GameController extends Application {
     static char[][] board;
 
     static ArrayList<Point> availablePoints;
+
+    static MoveController moveController;
 
     public static void main(String[] args) {
         launch(args);
@@ -35,20 +38,22 @@ public class GameController extends Application {
 
         getBoardReady();
 
-        Scene scene = new Scene(gameBoard.getBoard(), 450, 450);
+        Scene scene = new Scene(gameBoard.getMainScene(), 600, 650);
         primaryStage.setScene(scene);
         //fixed dimensions for the board (450 * 450)
-        primaryStage.setMaxHeight(450);
-        primaryStage.setMaxWidth(450);
-        primaryStage.setMinHeight(450);
-        primaryStage.setMinWidth(450);
+        primaryStage.setMaxHeight(650);
+        primaryStage.setMaxWidth(650);
+        primaryStage.setMinHeight(650);
+        primaryStage.setMinWidth(650);
 
         primaryStage.show();
 
     }
 
     static void getBoardReady() {
+        //inititalize the 2D array
         board = new char[3][3];
+        moveController = new MoveController();
         gameBoard = new GameBoard();
         gameBoard.layoutGUI();
     }
@@ -62,6 +67,8 @@ public class GameController extends Application {
         printBoard(board);
         //now it is the computer's turn
         currentTurn = 'O';
+        //call the minimax algorithm in move controller
+        moveController.minimax(board,0,currentTurn);
     }
 
     static void printBoard(char[][] board) {
@@ -72,5 +79,6 @@ public class GameController extends Application {
             }
             System.out.println();
         }
+        System.out.println();
     }
 }

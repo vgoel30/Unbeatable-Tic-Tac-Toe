@@ -7,6 +7,7 @@ package ttt.gui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -21,6 +22,8 @@ import ttt.controller.ViewController;
  */
 public class GameBoard {
     ViewController viewController;
+    
+    VBox mainScene;
 
     VBox boardContainer;
 
@@ -46,6 +49,7 @@ public class GameBoard {
     public void layoutGUI() {
         viewController = new ViewController();
         
+        mainScene = new VBox(0);
         boardContainer = new VBox();
 
         firstRow = new HBox();
@@ -71,7 +75,10 @@ public class GameBoard {
             row.setMinSize(450, 150);
             row.setMaxSize(450, 150);
         }
-
+        
+        mainScene.getChildren().add(boardContainer);
+        mainScene.setPadding(new Insets(80,20,20,100));
+        
         viewController.attachEventHandlers(boxes);
     }
 
@@ -157,17 +164,21 @@ public class GameBoard {
             rowBox.setMaxSize(150, 150);
 
             String cssString = "-fx-border-color: black;\n"
-                    + "-fx-border-width: 0 3 3 0;\n"
+                    + "-fx-border-width: 0 3 0 0;\n"
                     + "-fx-border-style: solid;\n";
 
             boxSeven.setStyle(cssString);
             boxEight.setStyle(cssString);
 
             cssString = "-fx-border-color: black;\n"
-                    + "-fx-border-width: 0 0 3 0;\n"
+                    + "-fx-border-width: 0 0 0 0;\n"
                     + "-fx-border-style: solid;\n";
             boxNine.setStyle(cssString);
         }
+    }
+    
+    public VBox getMainScene(){
+        return mainScene;
     }
 
     public VBox getBoard() {

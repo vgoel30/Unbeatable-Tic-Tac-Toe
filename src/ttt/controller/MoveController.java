@@ -5,6 +5,9 @@
  */
 package ttt.controller;
 
+import java.util.ArrayList;
+import ttt.data.Point;
+
 /**
  *
  * @author varungoel
@@ -13,18 +16,69 @@ public class MoveController {
 
     // 'X' will be considered as 1 -> the player
     // 'O' will be considered as 2 -> the AI
-   
+    public int minimax(char[][] board, int depth, char currentTurn) {
+        //if the computer has won
+        if (playerHasWon(board, 'O')) {
+            return 1;
+        }
+        //if the opponent has won
+        if (playerHasWon(board, 'X')) {
+            return -1;
+        }
+        //get all the available points
+        ArrayList<Point> avaialablePoints = getAvailablePoints(board);
+        //if no points are available, no further recursive calls
+        if(avaialablePoints.isEmpty())
+            return 0;
+        //these two values will be used for pruning the decision tree
+        int maxScore = Integer.MIN_VALUE;
+        int minScore = Integer.MAX_VALUE;
+        
+        //iterate over all the available points
+        for(Point point: avaialablePoints){
+            //if it's the computer's turn
+            if(currentTurn == 'O'){
+                //simulate a move 
+                simulateMove(board, point,'O');
+                //call minimax to get a new score and the opponent's next move
+                int currentScore = minimax(board, depth + 1, 'X');
+            }
+        }
+    }
+    
+    private void simulateMove(char[][] board, Point point, char player){
+        board[point.getRow()][point.getColumn()] = player;
+    }
+    
+    public ArrayList<Point> getAvailablePoints(char[][] board){
+        int i,j;
+        //the list of all the avaiable points on the grid
+        ArrayList<Point> avaialablePoints = new ArrayList<>();
+        //iterate over the 2D array to find all the empty squares
+        for(i = 0; i < 3; i++){
+            for(j = 0; j < 3; j++){
+                if(board[i][j] == '\0'){
+                    //i will be the row and j the column of the point to add
+                    avaialablePoints.add(new Point(i, j));
+                }
+            }
+        }
+        return avaialablePoints;
+    }
+
     /**
      * Function to check if the game is over
+     *
      * @param board
      * @return if either one of the players has won
      */
-    public boolean gameIsOver(char[][] board){
+    public boolean gameIsOver(char[][] board) {
         return playerHasWon(board, 'O') || playerHasWon(board, 'X');
     }
-    
+
     /**
      * Checks to see if a player has won
+     *
      * @param board is the current state of the tic-tac-toe board
      * @param player is the player for who went to check ('X' or 'O')
      * @return if a particular player has won the game
