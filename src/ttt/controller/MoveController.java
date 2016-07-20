@@ -16,85 +16,20 @@ public class MoveController {
 
     // 'X' will be considered as 1 -> the player
     // 'O' will be considered as 2 -> the AI
-    public int minimax(char[][] board, int depth, char currentTurn) {
-        Point moveToMake = new Point();
-        //if the computer has won
-        if (playerHasWon(board, 'O')) {
-            return 1;
-        }
-        //if the opponent has won
-        if (playerHasWon(board, 'X')) {
-            return -1;
-        }
-        //get all the available points
-        ArrayList<Point> avaialablePoints = getAvailablePoints(board);
-        //if no points are available, no further recursive calls
-        if(avaialablePoints.isEmpty())
-            return 0;
-        //these two values will be used for pruning the decision tree
-        int maxScore = Integer.MIN_VALUE;
-        int minScore = Integer.MAX_VALUE;
-        int counter = 0;
-        
-        //iterate over all the available points
-        for(Point point: avaialablePoints){
-            int row = point.getRow();
-            int column = point.getColumn();
-            counter++;
-            //if it's the computer's turn
-            if(currentTurn == 'O'){
-                //simulate a move 
-                simulateMove(board, point,'O');
-                //call minimax to get a new score and the opponent's next move
-                int currentScore = minimax(board, depth + 1, 'X');
-                //update the max score; if required
-                maxScore = Math.max(maxScore, currentScore);
-                //if we have reached an optimal decision
-                if(currentScore >= 0 && depth == 0)
-                    moveToMake = point;
-                if(currentScore == 1){
-                    //reset the point after move simulation
-                    board[row][column] = '\0';
-                    //exit the loop, no need for further searching
-                    break;
-                }
-                if(counter == avaialablePoints.size() && depth == 0 && maxScore < 0){
-                    moveToMake = point;
-                }
-            }
-            //if it's the opponent's turn
-            else{
-                //simulate a move from the player's perspective
-                simulateMove(board, point, 'X');
-                //call minimax to update the current score with the AI's next move
-                int currentScore = minimax(board, depth, 'O');
-                //update the minimum score; if required
-                minScore = Math.min(currentScore,minScore);
-                //if we have reahced an optimal decision, no need to go further
-                if(minScore == -1){
-                    //reset the point 
-                    board[row][column] = '\0';
-                }
-            }
-            //reset the point
-            board[row][column] = '\0';
-        }
-        System.out.println("MINIMAX:  " + moveToMake);
-        return currentTurn == 'O' ? maxScore : minScore;
-    }
     
-    private void simulateMove(char[][] board, Point point, char player){
+
+    void simulateMove(char[][] board, Point point, char player) {
         board[point.getRow()][point.getColumn()] = player;
     }
-    
-    public ArrayList<Point> getAvailablePoints(char[][] board){
-        int i,j;
+
+    public ArrayList<Point> getAvailablePoints(char[][] board) {
+        int i, j;
         //the list of all the avaiable points on the grid
         ArrayList<Point> avaialablePoints = new ArrayList<>();
         //iterate over the 2D array to find all the empty squares
-        for(i = 0; i < 3; i++){
-            for(j = 0; j < 3; j++){
-                if(board[i][j] == '\0'){
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                if (board[i][j] == '\0') {
                     //i will be the row and j the column of the point to add
                     avaialablePoints.add(new Point(i, j));
                 }

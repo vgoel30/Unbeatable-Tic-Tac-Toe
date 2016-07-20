@@ -67,8 +67,6 @@ public class GameController extends Application {
         
         //now it is the computer's turn
         currentTurn = 'O';
-        //call the minimax algorithm in move controller
-        moveController.minimax(board,0,currentTurn);
         printBoard(board);
     }
 
