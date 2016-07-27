@@ -72,6 +72,10 @@ public class GameController extends Application {
 
         board[result[1]][result[2]] = 'O';
         printBoard(board);
+        if(moveController.playerHasWon(board, 'X'))
+            System.out.println("X HAS WON THE GAME");
+        else if(moveController.playerHasWon(board, 'O'))
+            System.out.println("O HAS WON THE GAME");
     }
 
     static void printBoard(char[][] board) {

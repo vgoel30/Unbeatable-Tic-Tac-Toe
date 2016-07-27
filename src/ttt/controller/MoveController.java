@@ -37,7 +37,7 @@ public class MoveController {
         } else {
             //iterate over all the avaiable points for the next move
             for (Point point : availablePoints) {
-               // System.out.println("POINT : " + point);
+                // System.out.println("POINT : " + point);
                 int pointRow = point.getRow();
                 int pointColumn = point.getColumn();
                 //try this move for the person who is to go next
@@ -110,52 +110,48 @@ public class MoveController {
 
         //check for rows
         //check if the first row has equal elements
-        boolean firstRowFull = (board[0][0] == player) && (board[0][0] == board[0][1] && board[0][1] == board[0][2]);
+        boolean firstRowFull = (board[0][0] == player) && (board[0][1] == player) && (board[0][2] == player);
         if (firstRowFull) {
             return true;
         }
         //check if the second row has equal elements
-        boolean secondRowFull = (board[1][0] == player) && (board[1][0] == board[1][1] && board[1][1] == board[1][2]);
+        boolean secondRowFull = (board[1][0] == player) && (board[1][1] == player) && (board[1][2] == player);
         if (secondRowFull) {
             return true;
         }
         //check if the third row has equal elements
-        boolean thirdRowFull = (board[2][0] == player) && (board[2][0] == board[2][1] && board[2][1] == board[2][2]);
+        boolean thirdRowFull = (board[2][0] == player) && (board[2][1] == player) && (board[2][2] == player);
         if (thirdRowFull) {
             return true;
         }
 
         //check for diagonals
         //check to see if the first diagonal is full
-        boolean firstDiagonalFull = (board[0][0] == player) && (board[0][0] == board[1][1] && board[1][1] == board[2][2]);
+        boolean firstDiagonalFull = (board[0][0] == player) && (board[1][1] == player) && (board[2][2] == player);
         if (firstDiagonalFull) {
             return true;
         }
         //check to see if the second diagonal is full
-        boolean secondDiagonalFull = (board[0][2] == player) && (board[0][2] == board[1][1] && board[1][1] == board[2][0]);
+        boolean secondDiagonalFull = (board[0][2] == player) && (board[1][1] == player) && (board[2][0] == player);
         if (secondDiagonalFull) {
             return true;
         }
 
         //check for columns now
         //check if the first column has equal elements
-        boolean firstColumnFull = (board[0][0] == player) && (board[0][0] == board[1][0] && board[1][0] == board[2][0]);
+        boolean firstColumnFull = (board[0][0] == player) && (board[1][0] == player) && (board[2][0] == player);
         if (firstColumnFull) {
             return true;
         }
         //check if the second column has equal elements
-        boolean secondColumnFull = (board[0][1] == player) && (board[0][1] == board[1][1] && board[1][1] == board[2][1]);
+        boolean secondColumnFull = (board[0][1] == player) && (board[1][1] == player) && (board[2][1] == player);
         if (secondColumnFull) {
             return true;
         }
         //check if the third column has equal elements
-        boolean thirdColumnFull = (board[0][1] == player) && (board[0][2] == board[1][2] && board[1][2] == board[2][2]);
-        if (thirdColumnFull) {
-            return true;
-        }
-
+        boolean thirdColumnFull = (board[0][2] == player) && (board[1][2] == player) && (board[2][2] == player);
         //if by now, nothing has been returned, return false
-        return false;
+        return thirdColumnFull;
     }
 
 }
