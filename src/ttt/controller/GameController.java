@@ -28,6 +28,7 @@ public class GameController extends Application {
     static ArrayList<Point> availablePoints;
 
     static MoveController moveController;
+    static ViewController viewController;
 
     public static void main(String[] args) {
         launch(args);
@@ -54,6 +55,7 @@ public class GameController extends Application {
         //inititalize the 2D array
         board = new char[3][3];
         moveController = new MoveController();
+        viewController = new ViewController();
         gameBoard = new GameBoard();
         gameBoard.layoutGUI();
     }
@@ -72,8 +74,14 @@ public class GameController extends Application {
             currentTurn = 'O';
             //call minimax to get the best move
             int[] result = moveController.minimax(board, 'O', 2);
-
-            board[result[1]][result[2]] = 'O';
+            //now place the 'O' in the appropriate box
+            //get the row and column of the optimal move
+            int bestRow = result[1];
+            int bestColumn = result[2];
+            //the id of the box in which the move will be made
+            String newBoxID = Integer.toString(bestRow) + Integer.toString(bestColumn);
+            viewController.placeO(gameBoard,newBoxID);
+            board[bestRow][bestColumn] = 'O';
             printBoard(board);
             if (moveController.playerHasWon(board, 'X')) {
                 System.out.println("X HAS WON THE GAME");

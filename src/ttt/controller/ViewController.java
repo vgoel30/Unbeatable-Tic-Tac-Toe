@@ -6,18 +6,21 @@
 package ttt.controller;
 
 import java.util.ArrayList;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import ttt.gui.GameBoard;
 
 /**
  *
  * @author varungoel
  */
 public class ViewController {
-    
+
     /**
      * Attaches event handlers to all the boxes on the tic tac toe grid
+     *
      * @param boxes is the list of all boxes
      */
     public void attachEventHandlers(ArrayList<Pane> boxes) {
@@ -53,12 +56,46 @@ public class ViewController {
      * @param cssString is the default CSS string being used for the boxes of
      * the grid
      */
-    public void placeX(Pane rowBox, String cssString) {
+    void placeX(Pane rowBox, String cssString) {
         ImageView imageView = new ImageView("X.png");
         imageView.setTranslateX(20);
         imageView.setTranslateY(20);
         rowBox.getChildren().add(imageView);
         rowBox.setStyle(cssString);
+    }
+    
+    /**
+     * Places the 'O' in the box clicked by the user
+     *
+     * @param rowBox is the box clicked by the user
+     * @param cssString is the default CSS string being used for the boxes of
+     * the grid
+     */
+    void placeO(GameBoard gameBoard, String newBoxID) {
+        ImageView imageView = new ImageView("O.png");
+        imageView.setTranslateX(20);
+        imageView.setTranslateY(20);
+        
+        for(Node firstRowBox: gameBoard.getFirstRow().getChildren()){
+            if(firstRowBox instanceof Pane && firstRowBox.getId().equals(newBoxID)){
+                ((Pane)firstRowBox).getChildren().add(imageView);
+                return;
+            }
+        }
+        
+        for(Node firstRowBox: gameBoard.getSecondRow().getChildren()){
+            if(firstRowBox instanceof Pane && firstRowBox.getId().equals(newBoxID)){
+                ((Pane)firstRowBox).getChildren().add(imageView);
+                return;
+            }
+        }
+        
+        for(Node firstRowBox: gameBoard.getThirdRow().getChildren()){
+            if(firstRowBox instanceof Pane && firstRowBox.getId().equals(newBoxID)){
+                ((Pane)firstRowBox).getChildren().add(imageView);
+                return;
+            }
+        }
     }
 
 }
