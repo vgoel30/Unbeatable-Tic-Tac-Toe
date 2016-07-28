@@ -18,27 +18,27 @@ public class MoveController {
     final static char OPPONENT_MOVE = 'X';
 
     /**
-     * Minimax algorithm will find the best move for the AI to make in order to
-     * never lose
-     *
+     * Minimax algorithm with alpha-beta pruning
      * @param board is the tic-tac-toe board
      * @param currentTurn is the player who has to go
      * @param depth is the depth of the decision tree
+     * @param alpha is the maximum value of the score for the AI's move
+     * @param beta is the minimum value for the score for the player's move
      * @return an integer array with 3 elements: the best score, the optimal
      * row, the optimal column
      */
-    int[] minimax(char[][] board, char currentTurn, int depth) {
+    
+    int[] minimax(char[][] board, char currentTurn, int depth, int alpha, int beta) {
         //get all the points that are empty
         ArrayList<Point> availablePoints = getAvailablePoints(board);
-        //we want to get the maximum value score for (MY_MOVE): the AI
-        int bestScore = (currentTurn == MY_MOVE) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         int currentScore;
         //the row and column that will lead to the best outcome
         int bestRow = -1;
         int bestColumn = -1;
         //if no more moves are possible, check for a draw or the winner
         if (availablePoints.isEmpty() || depth == 0) {
-            bestScore = evaluate(board);
+            currentScore = evaluate(board);
+            return new int[] {currentScore, bestRow, bestColumn};
         } else {
             for (Point currentPoint : availablePoints) {
                 int row = currentPoint.getRow();
@@ -47,27 +47,32 @@ public class MoveController {
                 board[row][column] = currentTurn;
                 if (currentTurn == MY_MOVE) {
                     //play from the player's side
-                    currentScore = minimax(board, OPPONENT_MOVE, depth - 1)[0];
-                    if (currentScore > bestScore) {
-                        bestScore = currentScore;
+                    currentScore = minimax(board, OPPONENT_MOVE, depth - 1, alpha, beta)[0];
+                    //we want to maximize our score
+                    if (currentScore > alpha) {
+                        alpha = currentScore;
                         bestRow = row;
                         bestColumn = column;
                     }
                 } else if (currentTurn == OPPONENT_MOVE) {
                     //play from the player's side
-                    currentScore = minimax(board, OPPONENT_MOVE, depth - 1)[0];
-                    if (currentScore < bestScore) {
-                        bestScore = currentScore;
+                    currentScore = minimax(board, OPPONENT_MOVE, depth - 1, alpha, beta)[0];
+                    //we want to minimze the opponent's score
+                    if (currentScore < beta) {
+                        beta = currentScore;
                         bestRow = row;
                         bestColumn = column;
                     }
                 }
-                //undo the move
+                //empty the box to undo the move
                 board[row][column] = '\0';
+                //prune the decision tree if we have reached a point where a decision is in our favor
+                if(alpha >= beta)
+                    break;
             }
         }
-
-        return new int[]{bestScore, bestRow, bestColumn};
+        //if it's the AI's turn, we want to return alpha
+        return new int[] {(currentTurn == MY_MOVE) ? alpha : beta, bestRow, bestColumn};
     }
 
     /**

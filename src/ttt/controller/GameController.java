@@ -6,14 +6,12 @@
 package ttt.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import ttt.data.Point;
@@ -81,7 +79,7 @@ public class GameController extends Application {
         //proceed iff the game isn't over yet
         if (!moveController.gameIsOver(board)) {
             //call minimax to get the best move
-            int[] result = moveController.minimax(board, 'O', 2);
+            int[] result = moveController.minimax(board, 'O', 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
             //now place the 'O' in the appropriate box
             //get the row and column of the optimal move
             int bestRow = result[1];
