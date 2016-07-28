@@ -15,14 +15,18 @@ import javafx.scene.layout.Pane;
  * @author varungoel
  */
 public class ViewController {
-
+    
+    /**
+     * Attaches event handlers to all the boxes on the tic tac toe grid
+     * @param boxes is the list of all boxes
+     */
     public void attachEventHandlers(ArrayList<Pane> boxes) {
         for (Pane rowBox : boxes) {
             String cssString = rowBox.getStyle();
             //mouse enter event
             rowBox.setOnMouseEntered(e -> {
                 if (rowBox.getChildren().isEmpty()) {
-                    rowBox.setStyle(cssString + "-fx-background-color: #F2F1EF;");
+                    rowBox.setStyle(cssString + "-fx-background-color: #CF000F;");
                 }
             });
             //mouse exit event

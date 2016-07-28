@@ -59,23 +59,28 @@ public class GameController extends Application {
     }
 
     static void handleBoxClick(String boxID) {
-        //get the numerical values
-        int row = boxID.charAt(0) - 48;
-        int column = boxID.charAt(1) - 48;
-        //set the clicked box to 'X
-        board[row][column] = 'X';
-        // printBoard(board);
+        //proceed iff the game isn't over yet
+        if (!moveController.gameIsOver(board)) {
+            //get the numerical values
+            int row = boxID.charAt(0) - 48;
+            int column = boxID.charAt(1) - 48;
+            //set the clicked box to 'X
+            board[row][column] = 'X';
+            // printBoard(board);
 
-        //now it is the computer's turn
-        currentTurn = 'O';
-        int[] result = moveController.minimax(board, 'O', 2);
+            //now it is the computer's turn
+            currentTurn = 'O';
+            //call minimax to get the best move
+            int[] result = moveController.minimax(board, 'O', 2);
 
-        board[result[1]][result[2]] = 'O';
-        printBoard(board);
-        if(moveController.playerHasWon(board, 'X'))
-            System.out.println("X HAS WON THE GAME");
-        else if(moveController.playerHasWon(board, 'O'))
-            System.out.println("O HAS WON THE GAME");
+            board[result[1]][result[2]] = 'O';
+            printBoard(board);
+            if (moveController.playerHasWon(board, 'X')) {
+                System.out.println("X HAS WON THE GAME");
+            } else if (moveController.playerHasWon(board, 'O')) {
+                System.out.println("O HAS WON THE GAME");
+            }
+        }
     }
 
     static void printBoard(char[][] board) {
