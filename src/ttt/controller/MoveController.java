@@ -16,13 +16,16 @@ public class MoveController {
 
     final static char MY_MOVE = 'O';
     final static char OPPONENT_MOVE = 'X';
-    
+
     /**
-     * Minimax algorithm will find the best move for the AI to make in order to never lose
+     * Minimax algorithm will find the best move for the AI to make in order to
+     * never lose
+     *
      * @param board is the tic-tac-toe board
-     * @param currentTurn is the player who has to go 
+     * @param currentTurn is the player who has to go
      * @param depth is the depth of the decision tree
-     * @return an integer array with 3 elements: the best score, the optimal row, the optimal column
+     * @return an integer array with 3 elements: the best score, the optimal
+     * row, the optimal column
      */
     int[] minimax(char[][] board, char currentTurn, int depth) {
         //get all the points that are empty
@@ -34,28 +37,26 @@ public class MoveController {
         int bestRow = -1;
         int bestColumn = -1;
         //if no more moves are possible, check for a draw or the winner
-        if(availablePoints.isEmpty() || depth == 0){
+        if (availablePoints.isEmpty() || depth == 0) {
             bestScore = evaluate(board);
-        }
-        else{
-            for(Point currentPoint: availablePoints){
+        } else {
+            for (Point currentPoint : availablePoints) {
                 int row = currentPoint.getRow();
                 int column = currentPoint.getColumn();
                 //play the move in the row-column with the current player
                 board[row][column] = currentTurn;
-                if(currentTurn == MY_MOVE){
+                if (currentTurn == MY_MOVE) {
                     //play from the player's side
-                    currentScore = minimax(board, OPPONENT_MOVE, depth-1)[0];
-                    if(currentScore > bestScore){
+                    currentScore = minimax(board, OPPONENT_MOVE, depth - 1)[0];
+                    if (currentScore > bestScore) {
                         bestScore = currentScore;
                         bestRow = row;
                         bestColumn = column;
                     }
-                }
-                else if(currentTurn == OPPONENT_MOVE){
+                } else if (currentTurn == OPPONENT_MOVE) {
                     //play from the player's side
-                    currentScore = minimax(board, OPPONENT_MOVE, depth-1)[0];
-                    if(currentScore < bestScore){
+                    currentScore = minimax(board, OPPONENT_MOVE, depth - 1)[0];
+                    if (currentScore < bestScore) {
                         bestScore = currentScore;
                         bestRow = row;
                         bestColumn = column;
@@ -65,12 +66,13 @@ public class MoveController {
                 board[row][column] = '\0';
             }
         }
-        
+
         return new int[]{bestScore, bestRow, bestColumn};
     }
 
     /**
      * Gets a list of all available points on the board
+     *
      * @param board is the tic tac toe board
      * @return a list of points currently available
      */
@@ -89,9 +91,10 @@ public class MoveController {
         }
         return avaialablePoints;
     }
-    
+
     /**
      * Evaluates the board for various configrations
+     *
      * @param board
      * @return the evaluated score
      */
@@ -117,6 +120,7 @@ public class MoveController {
 
     /**
      * Evaluates a line with given coordinates
+     *
      * @param row1
      * @param col1
      * @param row2
@@ -124,7 +128,7 @@ public class MoveController {
      * @param row3
      * @param col3
      * @param board
-     * @return 
+     * @return
      */
     private int evaluateLine(int row1, int col1, int row2, int col2, int row3, int col3, char[][] board) {
         int score = 0;
@@ -233,27 +237,30 @@ public class MoveController {
 
     /**
      * Helper method that sees if the board is full
+     *
      * @param board
-     * @return 
+     * @return
      */
-    private boolean boardIsFull(char[][] board){
-        int i,j = 0;
-        for(i = 0; i < 3; i++){
-            for(j = 0; j < 3; j++){
-                if(board[i][j] == '\0')
+    boolean boardIsFull(char[][] board) {
+        int i, j = 0;
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                if (board[i][j] == '\0') {
                     return false;
+                }
             }
         }
         return true;
     }
-     
+
     /**
-     * Method to check whether a game with the given board is over 
+     * Method to check whether a game with the given board is over
+     *
      * @param board
-     * @return 
+     * @return
      */
-    boolean gameIsOver(char[][] board){
-        return playerHasWon(board, MY_MOVE) || boardIsFull(board)|| playerHasWon(board, OPPONENT_MOVE);
+    boolean gameIsOver(char[][] board) {
+        return playerHasWon(board, MY_MOVE) || boardIsFull(board) || playerHasWon(board, OPPONENT_MOVE);
     }
-    
+
 }

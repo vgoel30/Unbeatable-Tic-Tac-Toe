@@ -8,6 +8,7 @@ package ttt.gui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -173,6 +174,21 @@ public class GameBoard {
                     + "-fx-border-style: solid;\n";
             boxNine.setStyle(cssString);
         }
+    }
+    
+    public void reset(){
+        //clears out the 'X' and 'O' from all the rows
+        
+        for(Node firstRowBox: getFirstRow().getChildren()){
+            ((Pane)firstRowBox).getChildren().clear();
+        }
+        for(Node secondRowBox: getSecondRow().getChildren()){
+            ((Pane)secondRowBox).getChildren().clear();
+        }
+        for(Node thirdRowBox: getThirdRow().getChildren()){
+            ((Pane)thirdRowBox).getChildren().clear();
+        }
+        
     }
     
     public VBox getMainScene(){

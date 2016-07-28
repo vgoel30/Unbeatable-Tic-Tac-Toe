@@ -6,9 +6,15 @@
 package ttt.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import ttt.data.Point;
 import ttt.gui.GameBoard;
@@ -61,17 +67,19 @@ public class GameController extends Application {
     }
 
     static void handleBoxClick(String boxID) {
+
+        //get the numerical values
+        int row = boxID.charAt(0) - 48;
+        int column = boxID.charAt(1) - 48;
+        //set the clicked box to 'X
+        board[row][column] = 'X';
+        // printBoard(board);
+
+        //now it is the computer's turn
+        currentTurn = 'O';
+
         //proceed iff the game isn't over yet
         if (!moveController.gameIsOver(board)) {
-            //get the numerical values
-            int row = boxID.charAt(0) - 48;
-            int column = boxID.charAt(1) - 48;
-            //set the clicked box to 'X
-            board[row][column] = 'X';
-            // printBoard(board);
-
-            //now it is the computer's turn
-            currentTurn = 'O';
             //call minimax to get the best move
             int[] result = moveController.minimax(board, 'O', 2);
             //now place the 'O' in the appropriate box
@@ -80,14 +88,58 @@ public class GameController extends Application {
             int bestColumn = result[2];
             //the id of the box in which the move will be made
             String newBoxID = Integer.toString(bestRow) + Integer.toString(bestColumn);
-            viewController.placeO(gameBoard,newBoxID);
+            viewController.placeO(gameBoard, newBoxID);
             board[bestRow][bestColumn] = 'O';
             printBoard(board);
+            //if X has won the game
             if (moveController.playerHasWon(board, 'X')) {
                 System.out.println("X HAS WON THE GAME");
+                resetGame();
             } else if (moveController.playerHasWon(board, 'O')) {
-                System.out.println("O HAS WON THE GAME");
-            }
+                //if the computer has won, ask for new game
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("You lost");
+                alert.setHeaderText("The Computer has won");
+                alert.setContentText("Do you want to play a new game?");
+
+                Optional<ButtonType> confirmation = alert.showAndWait();
+                if (confirmation.get() == ButtonType.OK) {
+                    resetGame();
+                } //exit if they don't want to play
+                else {
+                    System.exit(0);
+                }
+            } 
+//            else if (moveController.boardIsFull(board)) {
+//                Alert alert = new Alert(AlertType.CONFIRMATION);
+//                alert.setTitle("Draw");
+//                alert.setHeaderText("The game is a draw");
+//                alert.setContentText("Do you want to play a new game?");
+//
+//                Optional<ButtonType> confirmation = alert.showAndWait();
+//                if (confirmation.get() == ButtonType.OK) {
+//                    resetGame();
+//                } //exit if they don't want to play
+//                else {
+//                    System.exit(0);
+//                }
+//            }
+        }
+        //the game is a draw
+        else {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Draw");
+                alert.setHeaderText("The game is a draw");
+                alert.setContentText("Do you want to play a new game?");
+
+                Optional<ButtonType> confirmation = alert.showAndWait();
+                if (confirmation.get() == ButtonType.OK) {
+                    resetGame();
+                } 
+                //exit if they don't want to play
+                else {
+                    System.exit(0);
+                }
         }
     }
 
@@ -100,5 +152,19 @@ public class GameController extends Application {
             System.out.println();
         }
         System.out.println();
+    }
+
+    static void resetGame() {
+        //empty the board
+        int i, j = 0;
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                board[i][j] = '\0';
+            }
+        }
+        //reset the game board
+        gameBoard.reset();
+        //for some stupid reason, JavaFX dialog boxes change the background of the main scene to grey. This resets it wo white
+        gameBoard.getMainScene().setStyle("-fx-background-color: white");
     }
 }
