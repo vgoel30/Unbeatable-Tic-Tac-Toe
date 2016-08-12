@@ -109,20 +109,6 @@ public class GameController extends Application {
                     System.exit(0);
                 }
             } 
-//            else if (moveController.boardIsFull(board)) {
-//                Alert alert = new Alert(AlertType.CONFIRMATION);
-//                alert.setTitle("Draw");
-//                alert.setHeaderText("The game is a draw");
-//                alert.setContentText("Do you want to play a new game?");
-//
-//                Optional<ButtonType> confirmation = alert.showAndWait();
-//                if (confirmation.get() == ButtonType.OK) {
-//                    resetGame();
-//                } //exit if they don't want to play
-//                else {
-//                    System.exit(0);
-//                }
-//            }
         }
         //the game is a draw
         else {
