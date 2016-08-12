@@ -94,6 +94,7 @@ public class GameController extends Application {
                 System.out.println("X HAS WON THE GAME");
                 resetGame();
             } else if (moveController.playerHasWon(board, 'O')) {
+                gameBoard.getMainScene().setStyle("-fx-background-color: white");
                 //if the computer has won, ask for new game
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("You lost");
