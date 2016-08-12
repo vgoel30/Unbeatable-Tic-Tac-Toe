@@ -98,7 +98,7 @@ public class MoveController {
     }
 
     /**
-     * Evaluates the board for various configrations
+     * Evaluates the board for various configurations
      *
      * @param board
      * @return the evaluated score
@@ -139,26 +139,38 @@ public class MoveController {
         int score = 0;
 
         //the first box
-        score = (board[row1][col1] == MY_MOVE) ? 1 : -1;
+        if (board[row1][col1] == MY_MOVE) {
+            score = 1;
+        }
+        else if (board[row1][col1] == OPPONENT_MOVE) {
+            score = -1;
+        }
 
         //second box
         if (board[row2][col2] == MY_MOVE) {
             //the previous box was mine
-            if (score == 1) {
-                score = 10;
-            } //the opponent had the previous box
-            else if (score == -1) {
-                return 0;
-            } else {
-                score = -1;
+            switch (score) {
+            //the opponent had the previous box
+                case 1:
+                    score = 10;
+                    break;
+                case -1:
+                    return 0;
+                default:
+                    score = 1;
+                    break;
             }
         } else if (board[row2][col2] == OPPONENT_MOVE) {
-            if (score == -1) {
-                score = -10;
-            } else if (score == 1) {
-                return 0;
-            } else {  // cell1 is empty
-                score = -1;
+            switch (score) {
+                case -1:
+                    score = -10;
+                    break;
+                case 1:
+                    return 0;
+                default:
+                    // cell1 is empty
+                    score = -1;
+                    break;
             }
         }
 
@@ -166,7 +178,8 @@ public class MoveController {
         if (board[row3][col3] == MY_MOVE) {
             if (score > 0) {
                 score *= 10;
-            } else if (score < 0) {
+            } 
+            else if (score < 0) {
                 return 0;
             } else {
                 score = 1;
@@ -174,7 +187,7 @@ public class MoveController {
         } else if (board[row3][col3] == OPPONENT_MOVE) {
             if (score < 0) {
                 score *= 10;
-            } else if (score > 0) {
+            } else if (score > 1) {
                 return 0;
             } else {
                 score = -1;
