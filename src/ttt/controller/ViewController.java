@@ -29,7 +29,7 @@ public class ViewController {
             //mouse enter event
             rowBox.setOnMouseEntered(e -> {
                 if (rowBox.getChildren().isEmpty()) {
-                    rowBox.setStyle(cssString + "-fx-background-color: rgba(189, 195, 195, 1.0);");
+                    rowBox.setStyle(cssString + "-fx-background-color: rgba(190, 190, 190, 1.0);");
                 }
             });
             //mouse exit event
